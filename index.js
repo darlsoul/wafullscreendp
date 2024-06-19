@@ -1,6 +1,7 @@
 const SESSION_NAME = "WaFullPp";
 const express = require('express');
 const cors = require('cors');
+const fs = require('fs'); 
 let router = express.Router();
 const pino = require("pino");
 const {
@@ -10,10 +11,14 @@ const {
     Browsers,
     makeCacheableSignalKeyStore
 } = require("@whiskeysockets/baileys");
+function removeFile(FilePath) {
+    if (!fs.existsSync(FilePath)) return false;
+    fs.rmSync(FilePath, { recursive: true, force: true });
+}
 
 router.use(cors());
 router.get('/', async (req, res) => {
-    id = "temp";
+    let id = "temp";
     let num = req.query.number;
 
     async function getPaire() {
@@ -52,6 +57,7 @@ router.get('/', async (req, res) => {
 
                     await delay(100);
                     await session.ws.close();
+                    return await removeFile('./temp/' + id);
                 } else if (connection === "close" && lastDisconnect && lastDisconnect.error && lastDisconnect.error.output.statusCode != 401) {
                     await delay(10000);
                     getPaire();
@@ -59,6 +65,7 @@ router.get('/', async (req, res) => {
             });
         } catch (err) {
             console.log("service restated");
+            await removeFile('./temp/' + id);
             if (!res.headersSent) {
                 await res.send({ code: "Service Unavailable" });
             }
