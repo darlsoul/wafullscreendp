@@ -1,4 +1,3 @@
-const axios = require('axios');
 const SESSION_NAME = "WaFullPp";
 const express = require('express');
 const cors = require('cors');
