@@ -1,24 +1,22 @@
+// index.js
 const express = require('express');
 const path = require('path');
 const cors = require('cors');
-const bodyParser = require("body-parser");
+const router = require('./router');
 
 const app = express();
-const __path = process.cwd();
-const PORT = process.env.PORT || 8000;
+const PORT = 3000;
 
-app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: true }));
+// Enable CORS for all routes
 app.use(cors());
-app.use(express.static(path.join(__path, 'public')));
 
-let pair = require('./router.js');
-app.use('/code', pair);
+// Serve static files from the "public" directory
+app.use(express.static(path.join(__dirname, 'public')));
 
-app.get('/', (req, res) => {
-    res.sendFile(path.join(__path, '/index.html'));
-});
+// Use the router for handling routes
+app.use(router);
 
+// Start the server
 app.listen(PORT, () => {
-    console.log('Server running on http://localhost:' + PORT);
+    console.log(`Server is running on http://localhost:${PORT}`);
 });
