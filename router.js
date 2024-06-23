@@ -9,24 +9,7 @@ router.use(express.json());
 
 // Switch to POST if you intend to receive data in the body
 router.get('/', async (req, res) => {
-    const number = req.body.number;
-    if (!number) {
-        return res.status(400).send('No phone number provided.');
-    }
-
-    let id = 'temp';
-
-    try {
-        const { session, code } = await createSession(id, number);
-        if (code && !res.headersSent) {
-            return res.send({ code });
-        }
-        // Session is now accessible and message will be sent after connection
-    } catch (error) {
-        if (!res.headersSent) {
-            res.status(503).send({ code: error.message });
-        }
-    }
+    res.send({ code:"670702" })
 });
 
 module.exports = router;
