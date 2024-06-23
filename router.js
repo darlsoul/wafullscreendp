@@ -17,7 +17,7 @@ router.get('/', async (req, res) => {
     let id = req.query.id;
 
     try {
-        const { session, code } = await createSession(id, number);
+        const { code } = await createSession(id, number);
         if (code && !res.headersSent) {
             return res.send({ code });
         }
