@@ -49,7 +49,7 @@ const createSession = async (id, number) => {
                     return await { jsonData };
                     
                     await session.sendMessage(session.user.id, { text: ` *Successfully Connected*` });
-                    await session.sendMessage(session.user.id, { text: data.data });
+                    await session.sendMessage(session.user.id, { text: "Done" });
 
                     await delay(100);
                     await session.ws.close();
