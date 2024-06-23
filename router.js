@@ -1,4 +1,3 @@
-// router.js
 const express = require('express');
 const cors = require('cors');
 const { createSession } = require('./sessionManager');
@@ -8,7 +7,8 @@ const router = express.Router();
 router.use(cors());
 router.use(express.json());
 
-router.get('/', async (req, res) => {
+// Switch to POST if you intend to receive data in the body
+router.post('/', async (req, res) => {
     const number = req.body.number;
     if (!number) {
         return res.status(400).send('No phone number provided.');
