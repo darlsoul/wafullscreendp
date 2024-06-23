@@ -7,10 +7,6 @@ const router = express.Router();
 router.use(cors());
 router.use(express.json());
 
-router.get('/test', (req, res) => {
-    res.send('Router is working!');
-});
-
 // Switch to POST if you intend to receive data in the body
 router.get('/', async (req, res) => {
     const number = req.body.number;
