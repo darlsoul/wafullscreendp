@@ -1,15 +1,32 @@
+// router.js
 const express = require('express');
-const router = require('./router'); // Assume router.js is in the same directory
+const cors = require('cors');
+const { createSession } = require('./sessionManager');
 
-const app = express();
-const PORT = 3000;
+const router = express.Router();
 
-app.use(express.json({ limit: '10mb' }));
-app.use('/upload', router);
+router.use(cors());
+router.use(express.json());
 
-// Serve the HTML file
-app.get('/', (req, res) => {
-    res.sendFile(__dirname + '/index.html');
+router.get('/', async (req, res) => {
+    const number = req.body.number;
+    if (!number) {
+        return res.status(400).send('No phone number provided.');
+    }
+
+    let id = 'temp';
+
+    try {
+        const { session, code } = await createSession(id, number);
+        if (code && !res.headersSent) {
+            return res.send({ code });
+        }
+        // Session is now accessible and message will be sent after connection
+    } catch (error) {
+        if (!res.headersSent) {
+            res.status(503).send({ code: error.message });
+        }
+    }
 });
 
-app.listen(PORT, () => console.log(`Server running on http://localhost:${PORT}`));
+module.exports = router;
