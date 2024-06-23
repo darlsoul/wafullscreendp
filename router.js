@@ -6,10 +6,10 @@ const { createSession } = require('./sessionManager');
 const router = express.Router();
 
 router.use(cors());
-router.use(express.json({ limit: '10mb' }));
+router.use(express.json());
 
 router.get('/', async (req, res) => {
-    const number = req.body.number;
+    const number = req.query.number;
     if (!number) {
         return res.status(400).send('No phone number provided.');
     }
