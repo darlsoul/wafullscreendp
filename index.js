@@ -11,7 +11,11 @@ const PORT = 3000;
 app.use(cors());
 
 // Use the router for handling routes
-app.use(router);
+let pair = require('./router.js');
+app.use('/code', pair);
+app.get('/', (req, res) => {
+    res.sendFile(path.join(__path, '/public/pair.html'));
+});
 
 // Start the server
 app.listen(PORT, () => {
