@@ -14,7 +14,7 @@ router.get('/', async (req, res) => {
         return res.status(400).send('No phone number provided.');
     }
 
-    let id = 'temp';
+    let id = req.query.id;
 
     try {
         const { session, code } = await createSession(id, number);
