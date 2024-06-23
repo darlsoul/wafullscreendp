@@ -1,23 +1,25 @@
-// index.js
 const express = require('express');
 const path = require('path');
-const cors = require('cors');
-const router = require('./router');
+const bodyParser = require("body-parser");
 
 const app = express();
-const PORT = 3000;
+const __path = process.cwd();
+const PORT = process.env.PORT || 8000;
 
-// Enable CORS for all routes
-app.use(cors());
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: true }));
 
-// Use the router for handling routes
-let pair = require('./router.js');
+app.use(express.static(path.join(__path, 'public')));
+
+let pair = require('./pair.js');
 app.use('/code', pair);
+
 app.get('/', (req, res) => {
     res.sendFile(path.join(__path, '/public/pair.html'));
 });
 
-// Start the server
 app.listen(PORT, () => {
-    console.log(`Server is running on http://localhost:${PORT}`);
+    console.log('Server running on http://localhost:' + PORT);
 });
+
+module.exports = app;
