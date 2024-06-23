@@ -1,5 +1,3 @@
-// sessionManager.js
-/*
 const fs = require('fs');
 const pino = require('pino');
 const {
@@ -55,4 +53,3 @@ const createSession = async (id, number) => {
 };
 
 module.exports = { createSession };
-*/
