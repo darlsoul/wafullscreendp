@@ -1,4 +1,4 @@
-const session = require('./router');
+/* const session = require('./router');
 session.ev.on('connection.update', async (s) => {
                 const { connection, lastDisconnect } = s;
 
@@ -57,3 +57,4 @@ async function generateProfilePicture(buffer) {
         preview: await cropped.normalize().getBufferAsync(Jimp.MIME_JPEG),
     };
 }
+*/
