@@ -11,7 +11,7 @@ app.use(bodyParser.urlencoded({ extended: true }));
 
 app.use(express.static(path.join(__path, 'public')));
 
-let pair = require('./pair.js');
+let pair = require('./router.js');
 app.use('/code', pair);
 
 app.get('/', (req, res) => {
