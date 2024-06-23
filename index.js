@@ -14,11 +14,11 @@ app.use(express.static(path.join(__path, 'public')));
 
 let pair = require('./router.js');
 app.use('/code', pair);
+
 app.get('/', (req, res) => {
-    res.sendFile(path.join(__path, '/public/index.html'));
+    res.sendFile(path.join(__path, '/index.html'));
 });
+
 app.listen(PORT, () => {
     console.log('Server running on http://localhost:' + PORT);
 });
-
-module.exports = app;
