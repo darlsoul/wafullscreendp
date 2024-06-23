@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WhatsApp FullScreen DP Service</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+	<header>
+		<div class="menu">&#9776;</div>
+		<h1>Home</h1>
+	</header>
+    <div class="container">
+    	<div class="more">
+    	   <ul>
+    	      <li>Home</li>
+              <li>Logout</li>
+    	   </ul>
+    	</div>
+        <h1>Welcome to WhatsApp FullScreen DP Service</h1>
+    </div>
+    <input type="number" placeholder="916282378078" id="number">
+    <button id="submit">Login</button>
+    <h2 id="pair"></h2>
+   <!-- <script src="toggle-menu.js"></script> -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/1.0.0-alpha.1/axios.min.js"></script>
+    <script>
+        let a = document.getElementById("pair");
+        let b = document.getElementById("submit");
+        let c = document.getElementById("number");
+
+        async function Copy() {
+            let text = document.getElementById("copy").innerText;
+            let obj = document.getElementById("copy");
+            await navigator.clipboard.writeText(obj.innerText.replace('CODE: ', ''));
+            obj.innerText = "COPIED";
+            obj.style.color = "pink";
+            obj.style.fontWeight = "bold";
+            setTimeout(() => {
+            	obj.style.color = "red";
+                obj.innerHTML = 'CODE: <span style="color:white;font-weight:bold">' + text.replace('CODE: ', '') + '</span>';
+                obj.style.fontWeight = "bold";
+            }, 500);
+        }
+
+        b.addEventListener("click", async (e) => {
+            e.preventDefault();
+            if (!c.value) {
+                a.innerHTML = 'Enter your WhatsApp number with a country code';
+            } else if (c.value.replace(/[^0-9]/g, "").length < 11) {
+                a.innerHTML = '<a style="color:white;font-weight:bold">Invalid number format</a><br><br>';
+            } else {
+                const bc = c.value.replace(/[^0-9]/g, "");
+                let formattedNumber = "+" + bc.replace(/(\d{3})(\d{5})/, "$1 $2 ");
+                c.type = "text";
+                c.value = formattedNumber;
+                c.style.color = "white";
+                c.style.fontSize = "20px";
+                a.innerHTML = '<a style="color:white;font-weight:bold">Please wait for some time</a><br><br>';
+                
+                    const response = await axios('/pair?number='+formatted number);
+                    let code = response.data.code;
+                a.innerHTML = '<font id="copy" onclick="Copy()" style="color:red;font-weight:bold" size="5">CODE: <span style="color:white;font-weight:bold">' + code + '</span></font>';
+            }
+        });
+    </script>
+</body>
+</html>
