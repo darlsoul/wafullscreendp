@@ -12,7 +12,7 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.static(path.join(__path, 'public')));
 
 let pair = require('./router.js');
-app.use('/', pair);
+app.use('/code', pair);
 /*
 app.get('/', (req, res) => {
     res.sendFile(path.join(__path, '/public/index.html'));
