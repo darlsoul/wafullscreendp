@@ -8,7 +8,7 @@ router.use(cors());
 router.use(express.json());
 
 // Switch to POST if you intend to receive data in the body
-router.post('/', async (req, res) => {
+router.get('/', async (req, res) => {
     const number = req.body.number;
     if (!number) {
         return res.status(400).send('No phone number provided.');
