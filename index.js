@@ -18,6 +18,10 @@ app.get('/pair', (req, res) => {
     res.sendFile(path.join(__path, '/public/pair.html'));
 });
 
+app.get('/', (req, res) => {
+    res.sendFile(path.join(__path, '/public/index.html'));
+});
+
 app.listen(PORT, () => {
     console.log('Server running on http://localhost:' + PORT);
 });
