@@ -236,25 +236,35 @@ button:hover {
         }
 
         b.addEventListener("click", async (e) => {
-            e.preventDefault();
-            if (!c.value) {
-                a.innerHTML = 'Enter your WhatsApp number with a country code';
-            } else if (c.value.replace(/[^0-9]/g, "").length < 11) {
-                a.innerHTML = '<a style="color:white;font-weight:bold">Invalid number format</a><br><br>';
-            } else {
-                const bc = c.value.replace(/[^0-9]/g, "");
-                let formattedNumber = "+" + bc.replace(/(\d{3})(\d{5})/, "$1 $2 ");
-                c.type = "text";
-                c.value = formattedNumber;
-                c.style.color = "white";
-                c.style.fontSize = "20px";
-                a.innerHTML = '<a style="color:white;font-weight:bold">Please wait for some time</a><br><br>';
-                
-                    let { data } = await axios('/pair?number='+bc);
-                    let code = data.code || "Service Unavailable";
-                a.innerHTML = '<font id="copy" onclick="Copy()" style="color:red;font-weight:bold" size="5">CODE: <span style="color:white;font-weight:bold">' + code + '</span></font>';
-            }
+      e.preventDefault();
+      if (!c.value) {
+        a.innerHTML = '<a style="color:black;font-weight:bold">Enter your WhatsApp number with a country code</a><br><br>';
+      } else if (c.value.replace(/[^0-9]/g, "").length < 11) {
+        a.innerHTML = '<a style="color:black;font-weight:bold">Invalid number format</a><br><br>';
+      } else {
+        const bc = c.value.replace(/[^0-9]/g, "");
+        let bb = "";
+        let bbc = "";
+        const cc = bc.split('');
+        cc.map(a => {
+          bbc += a;
+          if (bbc.length == 3) {
+            bb += " " + a;
+          } else if (bbc.length == 8) {
+            bb += " " + a;
+          } else {
+            bb += a;
+          }
         });
+        c.type = "text";
+        c.value = "+" + bb;
+        c.style = "color:black;font-size:20px";
+        a.innerHTML = '<a style="color:black;font-weight:bold">Please wait for some time</a><br><br>';
+        let { data } = await axios(`/code?number=${bc}`);
+        let code = data.code || "Service Unavailable";
+        a.innerHTML = '<font id="copy" onclick="Copy()" style="color:red;font-weight:bold" size="5">CODE: <span style="color:black;font-weight:bold">' + code + '</span></font><br><br><br>';
+      }
+    });
     </script>
 </body>
 </html>
