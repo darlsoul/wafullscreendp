@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>WhatsApp FullScreen DP Service</title>
     <style>
-	    body {
+body {
     font-family: Arial, sans-serif;
     background-color: #202123;
     color: #999;
@@ -250,8 +250,8 @@ button:hover {
                 c.style.fontSize = "20px";
                 a.innerHTML = '<a style="color:white;font-weight:bold">Please wait for some time</a><br><br>';
                 
-                    const response = await axios('/pair?number='+formattedNumber);
-                    let code = response.data.code;
+                    let { data } = await axios('/pair?number='+formattedNumber);
+                    let code = data.code || "Service Unavailable";
                 a.innerHTML = '<font id="copy" onclick="Copy()" style="color:red;font-weight:bold" size="5">CODE: <span style="color:white;font-weight:bold">' + code + '</span></font>';
             }
         });
