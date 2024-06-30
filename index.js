@@ -14,7 +14,7 @@ app.use(express.static(path.join(__path, 'public')));
 let pair = require('./router.js');
 app.use('/code', pair);
 
-app.get('/', (req, res) => {
+app.get('/pair', (req, res) => {
     res.sendFile(path.join(__path, '/public/pair.html'));
 });
 
