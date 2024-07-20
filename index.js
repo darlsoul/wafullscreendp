@@ -11,12 +11,11 @@ app.use(bodyParser.urlencoded({ extended: true }));
 
 app.use(express.static(path.join(__path, 'public')));
 
-let pair = require('./router.js');
-app.use('/code', pair);
+let upload = require('./upload.js');
+app.use('/upload', upload);
 
-app.get('/pair', (req, res) => {
-    res.sendFile(path.join(__path, '/public/pair.html'));
-});
+let pair = require('./pair.js');
+app.use('/code', pair);
 
 app.get('/', (req, res) => {
     res.sendFile(path.join(__path, '/public/index.html'));
