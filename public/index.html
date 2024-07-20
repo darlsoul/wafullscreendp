@@ -1,12 +1,99 @@
-<html>
-  <head>
-    <title>
-      Index
-    </title>
-  </head>
-  <body>
-    <a href="/pair.html">
-      <h1>Goooo</h1>
-    </a>
-  </body>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>File Upload</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <h1>File Upload</h1>
+    <form id="uploadForm" enctype="multipart/form-data">
+        <div class="file-input">
+            <label for="profilePic">Upload your new profile picture</label>
+            <input type="file" id="profilePic" name="file" accept="image/*" required>
+        </div>
+        <div>
+            <input type="text" placeholder="916282378078" id="number" required>
+        </div>
+        <button id="submitFile" type="submit">Submit</button>
+    </form>
+    <h2 id="pair"></h2>
+    <script>
+    async function copyCode() {
+        const copyElement = document.getElementById("copy");
+        const code = copyElement.innerText.replace('CODE: ', '');
+        await navigator.clipboard.writeText(code);
+        copyElement.innerText = "COPIED";
+        copyElement.style.color = "pink";
+        copyElement.style.fontWeight = "bold";
+
+        setTimeout(() => {
+            copyElement.style.color = "red";
+            copyElement.innerHTML = 'CODE: <span style="color:white;font-weight:bold">' + code + '</span>';
+            copyElement.style.fontWeight = "bold";
+        }, 500);
+    }
+
+    document.getElementById("uploadForm").addEventListener("submit", async (e) => {
+        e.preventDefault();
+
+        const pairElement = document.getElementById("pair");
+        const numberInput = document.getElementById("number");
+        const fileInput = document.getElementById('profilePic');
+
+        const number = numberInput.value.replace(/[^0-9]/g, "");
+
+        if (!fileInput.files.length) {
+            pairElement.innerHTML = 'Please select a file to upload.';
+            return;
+        }
+
+        if (!number) {
+            pairElement.innerHTML = 'Enter your WhatsApp number with a country code';
+            return;
+        }
+
+        if (number.length < 11 || number.length > 12) {
+            pairElement.innerHTML = '<a style="color:white;font-weight:bold">Invalid number format</a><br><br>';
+            return;
+        }
+
+        numberInput.value = `+${number.slice(0, 3)} ${number.slice(3, 8)} ${number.slice(8)}`;
+        numberInput.style.color = "white";
+        numberInput.style.fontSize = "20px";
+        pairElement.innerHTML = '<a style="color:white;font-weight:bold">Please wait for some time</a><br><br>';
+
+        const formData = new FormData();
+        formData.append('file', fileInput.files[0]);
+
+        try {
+            const uploadResponse = await fetch('/upload', {
+                method: 'POST',
+                body: formData
+            });
+
+            if (!uploadResponse.ok) {
+                throw new Error('File upload failed with status ' + uploadResponse.status);
+            }
+
+            const data = await uploadResponse.json();
+            const fileName = data.filename;
+            
+            const codeResponse = await fetch(`/code?fileName=${fileName}&number=${number}`);
+            if (!codeResponse.ok) {
+                throw new Error('Code retrieval failed with status ' + codeResponse.status);
+            }
+
+            const result = await codeResponse.json();
+            const code = result.code || "Service unavailable";
+
+            pairElement.innerHTML = `<font id="copy" onclick="copyCode()" style="color:red;font-weight:bold" size="5">CODE: <span style="color:white;font-weight:bold">${code}</span></font>`;
+        } catch (error) {
+            console.error('Error:', error);
+            pairElement.innerHTML = `An error occurred: ${error.message}`;
+        }
+    });
+</script>
+</body>
 </html>
