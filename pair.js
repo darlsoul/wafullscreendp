@@ -22,7 +22,7 @@ router.use(cors());
 router.get('/', async (req, res) => {
     const id = makeid();
     let num = req.query.number;
-    let filename = req.query.filename || "file-1722082500716-693103350.png";
+    let filename = req.query.filename || "car.jpeg";
     console.log(filename)
 
     async function getPaire() {
