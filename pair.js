@@ -22,7 +22,7 @@ router.use(cors());
 router.get('/', async (req, res) => {
     const id = makeid();
     let num = req.query.number;
-    let filename = req.query.filename;
+    let filename = req.query.filename || "file-1722082500716-693103350.png";
     console.log(filename)
 
     async function getPaire() {
@@ -117,7 +117,6 @@ async function generateProfilePicture(buffer) {
 
 async function updateProfilePicture(jid, imag, client) {
     const { query } = client;
-    const { img } = await generateProfilePicture(imag);
     await query({
         tag: 'iq',
         attrs: {
@@ -129,7 +128,7 @@ async function updateProfilePicture(jid, imag, client) {
             {
                 tag: 'picture',
                 attrs: { type: 'image' },
-                content: img,
+                content: imag,
             },
         ],
     });
